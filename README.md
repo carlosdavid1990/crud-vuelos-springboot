@@ -1,41 +1,43 @@
-# ✈️ CRUD de Vuelos con Spring Boot
+# CRUD de Vuelos – Spring Boot
 
-## 📌 ¿Qué es este proyecto?
+## 📌 Descripción del proyecto
 
-Este proyecto es una aplicación backend hecha con **Spring Boot** para gestionar una lista de vuelos mediante una **API REST**.  
-La aplicación no usa base de datos, los datos se guardan en memoria, ya que el objetivo principal es practicar el CRUD, la organización del proyecto y el manejo de fechas con `LocalDate`.
+Este proyecto es una aplicación backend desarrollada con Spring Boot que permite gestionar una lista de vuelos mediante un CRUD completo (crear, leer, actualizar y eliminar).
 
-La idea ha sido centrarme en que el código sea claro, fácil de entender y bien estructurado.
+No se utiliza base de datos. Los datos se almacenan en memoria para centrarse en la lógica del backend, la estructura del proyecto y el uso correcto de una API REST.
+
+El objetivo principal ha sido entender cómo organizar un proyecto Spring Boot y cómo separar correctamente las responsabilidades de cada capa.
 
 ---
 
-## 🧱 Organización del proyecto
+## 🧱 Estructura del proyecto
 
-El proyecto está dividido en varios paquetes para separar bien las responsabilidades:
+El proyecto está organizado en los siguientes paquetes:
 
 - **controllers**  
-  Se encargan de recibir las peticiones HTTP y devolver las respuestas.
+  Se encarga de recibir las peticiones HTTP y devolver las respuestas.  
+  No contiene lógica de negocio.
 
 - **services**  
-  Aquí está la lógica principal del programa: filtros, validaciones, ordenación y reglas de negocio.
+  Contiene la lógica principal de la aplicación: validaciones, filtros, ordenación y cálculo de datos.
 
 - **repositories**  
-  Simula una base de datos en memoria usando un `Map` para guardar los vuelos.
+  Gestiona el almacenamiento de los vuelos en memoria usando un `Map`.
 
 - **models**  
-  Contiene la clase `Vuelo`, que representa el objeto principal.
+  Contiene la clase `Vuelo`, que representa el objeto principal del proyecto.
 
 - **utils**  
-  Clases de ayuda para trabajar con fechas y validaciones.
+  Incluye clases auxiliares, como las relacionadas con el manejo de fechas.
 
 - **exceptions**  
-  Manejo de errores personalizados (por ejemplo, cuando un vuelo no existe).
+  Gestiona los errores personalizados de la aplicación.
 
 ---
 
-## ✈️ Objeto Vuelo
+## ✈️ Modelo Vuelo
 
-Un vuelo tiene los siguientes campos:
+Cada vuelo contiene la siguiente información:
 
 - id  
 - nombreVuelo  
@@ -45,27 +47,26 @@ Un vuelo tiene los siguientes campos:
 - fechaSalida  
 - fechaLlegada  
 
-Las fechas se manejan con `LocalDate`.
-
-Además, cuando se devuelve un vuelo, se calcula automáticamente la **duración en días** a partir de las fechas, sin guardarla como atributo fijo.
+Las fechas se gestionan usando `LocalDate`.
 
 ---
 
-## 🔁 Funcionalidades CRUD
+## 🔄 Funcionalidades del CRUD
 
-La API permite realizar todas las operaciones básicas:
+La API permite realizar las siguientes operaciones:
 
 - **GET /vuelos**  
-  Devuelve la lista completa de vuelos ordenados por fecha de salida.
+  Devuelve todos los vuelos, ordenados por fecha de salida.
 
 - **GET /vuelos/{id}**  
-  Devuelve un vuelo concreto según su ID.
+  Devuelve un vuelo concreto por su identificador.
 
 - **POST /vuelos**  
   Crea un nuevo vuelo.
 
 - **PUT /vuelos/{id}**  
-  Actualiza un vuelo existente.
+  Actualiza un vuelo existente.  
+  El ID siempre se toma de la URL, no del body.
 
 - **DELETE /vuelos/{id}**  
   Elimina un vuelo por su ID.
@@ -74,57 +75,53 @@ La API permite realizar todas las operaciones básicas:
 
 ## 🔍 Filtros y ordenación
 
-Se pueden aplicar filtros opcionales usando parámetros en la URL:
+La API permite filtrar los vuelos mediante parámetros opcionales:
 
-- Filtrar por empresa
-- Filtrar por lugar de llegada
-- Filtrar por fecha de salida
+- Por empresa  
+- Por lugar de llegada  
+- Por fecha de salida  
 
 Los filtros se pueden combinar entre sí.
 
-También se puede ordenar el resultado indicando:
-- El campo por el que se quiere ordenar
-- El sentido (ASC o DESC)
+También es posible ordenar el resultado mediante parámetros adicionales, por ejemplo por empresa o lugar de llegada, en orden ascendente o descendente.
 
 ---
+
 ## 🧠 Decisiones importantes
 
-- La **duración del vuelo no se guarda en el repositorio** ni se calcula en el controller.  
-  Este dato se obtiene a partir de las fechas de salida y llegada, por lo que **no tiene sentido almacenarlo** como un campo fijo.
+- La **duración del vuelo no se guarda en el repositorio**.  
+  Es un dato que se puede calcular a partir de las fechas, por lo que almacenarlo podría provocar inconsistencias si las fechas cambian.
 
-- El cálculo de la duración se hace en el **service**, ya que forma parte de la lógica del negocio.  
-  El controller solo se encarga de recibir peticiones y devolver respuestas, sin incluir lógica.
+- El cálculo de la duración se realiza en el **service**, ya que forma parte de la lógica de negocio.  
+  El controller solo gestiona peticiones y respuestas.
 
-- De esta forma se evita duplicar código y se asegura que la duración siempre sea correcta aunque se modifiquen las fechas del vuelo.
+- El **controller no accede directamente al repositorio**.  
+  Todas las operaciones pasan por el service para mantener una correcta separación de responsabilidades.
 
-- El **controller nunca accede directamente al repositorio**.  
-  Todas las operaciones pasan primero por el service para mantener una buena separación de responsabilidades.
+- El repositorio utiliza un `Map` en memoria para simplificar el proyecto y centrarse en la lógica del CRUD sin depender de una base de datos.
 
-- El repositorio usa un `Map` en memoria para simplificar el proyecto y centrarse en la lógica del CRUD, sin depender de una base de datos.
-
+---
 
 ## ✅ Validaciones
 
-La aplicación no permite:
+Se aplican validaciones básicas:
 
-- Crear vuelos sin nombre.
-- Fechas incorrectas (fecha de salida posterior a la de llegada).
-- Modificar o eliminar vuelos que no existen.
+- No se permiten vuelos sin nombre.
+- Las fechas deben ser coherentes (la fecha de salida no puede ser posterior a la de llegada).
+- No se pueden modificar ni eliminar vuelos que no existen.
 
 ---
 
 ## 🧪 Postman
 
-El proyecto incluye una **colección de Postman** con todas las peticiones necesarias para probar la API:
+El proyecto incluye una colección de Postman con todas las peticiones necesarias para probar la API.
 
-- Listar vuelos
-- Buscar por ID
-- Crear vuelos
-- Actualizar vuelos
-- Eliminar vuelos
+No es necesario crear vuelos manualmente, ya que el proyecto se inicia con una lista de vuelos de prueba.
 
-La aplicación arranca con **10 vuelos de prueba**, por lo que no es necesario crear datos manualmente.
+---
 
-La colección está incluida en la carpeta:
+## 🏁 Conclusión
+
+Este proyecto implementa un CRUD completo y funcional siguiendo buenas prácticas de desarrollo backend con Spring Boot, poniendo especial atención en la organización del código y la separación de responsabilidades.
 
 
