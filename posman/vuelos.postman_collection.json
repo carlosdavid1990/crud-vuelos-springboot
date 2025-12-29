@@ -1,0 +1,124 @@
+{
+	"info": {
+		"_postman_id": "ba11af3a-093f-4991-8523-189538e12270",
+		"name": "vuelos",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "50755955",
+		"_collection_link": "https://carlosdrf1990-1140416.postman.co/workspace/Carlos-R's-Workspace~4af470c3-b88d-45f1-8f39-63ea14322451/collection/50755955-ba11af3a-093f-4991-8523-189538e12270?action=share&source=collection_link&creator=50755955"
+	},
+	"item": [
+		{
+			"name": "listar vuelo",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/vuelos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"vuelos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "buscarPorID",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "crearvuelo",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"nombreVuelo\": \"IB999-EDITADO\",\r\n  \"empresa\": \"Iberia\",\r\n  \"lugarSalida\": \"Madrid\",\r\n  \"lugarLlegada\": \"Roma\",\r\n  \"fechaSalida\": \"2025-12-31\",\r\n  \"fechaLlegada\": \"2025-12-31\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/vuelos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"vuelos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "actualizar vuelo",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"nombreVuelo\": \"IB001-MOD\",\r\n  \"empresa\": \"Iberia\",\r\n  \"lugarSalida\": \"Madrid\",\r\n  \"lugarLlegada\": \"Roma\",\r\n  \"fechaSalida\": \"2025-03-10\",\r\n  \"fechaLlegada\": \"2025-03-12\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/vuelos/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"vuelos",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "eliminar vuelo",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/vuelos/4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"vuelos",
+						"4"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
