@@ -33,6 +33,15 @@ El proyecto está organizado en los siguientes paquetes:
 - **exceptions**  
   Gestiona los errores personalizados de la aplicación.
 
+
+ ### Uso de DTO
+
+En la aplicación se utiliza un DTO para representar los vuelos que se devuelven al cliente.
+Esto permite no exponer directamente el modelo Vuelo y añadir información calculada, como la duración del vuelo en días.
+
+El DTO solo se usa para las respuestas, por lo que se crea directamente a partir del modelo y no necesita setters ni constructor vacío.
+ 
+
 ---
 
 ## ✈️ Modelo Vuelo
